@@ -1,50 +1,32 @@
 <?php
-declare(strict_types=1);
+    require_once 'magic.php';
+    require_once 'traits.php';
+    // -----------------
+    // system('clear'); // system('cls'); // windows
 
-/**
- * Class Person
- */
-class Person
-{
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function __set($name, $value)
-    {
-        echo "Мы вызвали __set для '$name' с входными данными: $value";
-    }
+    // ===================================
+    echo "\n===================== Magic Functions =====================\n";
+    $person = new Person();
 
-    /**
-     * @param $name
-     */
-    public function __get($name)
-    {
-        echo "Мы вызвали __get для '$name'";
-    }
+    $person->userName = 'Иванов Петр';
+    echo 'Current userName value: ' . $person->userName . PHP_EOL;
 
-    /**
-     * @param $name
-     * @param $arguments
-     */
-    public function __call($name, $arguments)
-    {
-        echo "Мы вызвали метод '$name' с входными данными: " . implode(', ', $arguments) . PHP_EOL;
-    }
+    $person->changeName('userName', 'Иван', 'Никифор');
+    echo 'Current userName value: ' . $person->userName . PHP_EOL;
 
-    /**
-     * @param $name
-     * @param $arguments
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        echo "Мы вызвали статический метод '$name' с входными данными: " . implode(', ', $arguments) . PHP_EOL;
-    }
-}
+    Person::sayHello('Петров', 'Иван');
 
-$person = new Person();
-$person->sayHello('Ivan', 'Andrew');
-Person::sayHello('Andrew', 'Alex');
+    // ===================================
+    echo "\n===================== Use Traits =====================\n";
+    $user = new User("Иван");
+    $user = new User("Джон");
 
-echo $person->userName;
-echo $person->userName = 'userName';
+    $serialized = $user->serialize();
+    echo "\nОбъект в виде сериализованной строки:\n$serialized\n";
+    
+    echo "\nСодержимое сериализованной строки:\n";
+    print_r($user->unserialize($serialized));
+
+    echo "\nСписок использованных trait-ов:\n";
+    print_r(get_declared_traits());
+    echo "\n";
