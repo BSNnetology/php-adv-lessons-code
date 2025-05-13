@@ -1,22 +1,41 @@
 <?php
+    // ===================================
+    if (!file_exists('./.password')) {
+        echo "\nОтстутсвует файл парлоля соединения с базой MySql\n";
+        exit;
+    }
 
-$pdo = new PDO("sqlite:my/database/path/database.db");
+    $pass = file_get_contents('./.password');
+    $pdo = new PDO('mysql:host=localhost;dbname=Netology', 'root', $pass);
 
-$sql = 'INSERT INTO users(login, password) VALUES(:login, :password)';
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':login', 'new_login');
-$stmt->bindValue(':password', 'new_password');
-$stmt->execute();
+    // --------------
+    $qwr = $pdo->query('SELECT * FROM ptoducts where id = 5');
+    $rows = $qwr->fetchAll(PDO::FETCH_ASSOC);
 
-$insertedId = $pdo->lastInsertId();
+    if (count($rows)) {
+        echo "\nВ таблице 'ptoducts' базы 'Netology' уже есть запись с id = 5\n";
+    } else {
+        InsertNewRow($pdo);
+    }
 
-echo "\$insertedId = $insertedId";
+    // --------------
+    $qwr = $pdo->query('SELECT * FROM ptoducts');
+    $rows = $qwr->fetchAll(PDO::FETCH_ASSOC);
 
+    echo "\nСодержимое таблицы 'ptoducts' базы 'Netology':\n";
+    print_r($rows);
+    echo "\n";
 
-$dbh = new PDO('mysql:host=localhost;dbname=test', '$user', '$pass');
+    // =================================== 
+    function InsertNewRow(PDO $pdo): void {
+        $sql = 'INSERT INTO ptoducts(id, category, product) VALUES(:id, :category, :product)';
 
-$sth = $dbh->query('SELECT * FROM countries');
-$rows = $stm->fetchAll();
-
-print_r($rows);
-
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', 5);
+        $stmt->bindValue(':category', 'Электротоваты');
+        $stmt->bindValue(':product', 'Электрощиток');
+        
+        $stmt->execute();
+        $newId = $pdo->lastInsertId();   
+        echo "\nВ таблицу 'ptoducts' базы 'Netology' добавлена запись с id = $newId\n";
+    }
