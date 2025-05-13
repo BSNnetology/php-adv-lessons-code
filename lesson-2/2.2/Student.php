@@ -1,16 +1,8 @@
 <?php
-
-/**
- * Class Student
- */
-class Student extends Person
-{
-    /**
-     * @return string
-     */
-    public function getHello(): string
+    class Student extends Person
     {
-        return "Hello, $this->name $this->surname";
+        public function getHello(): string {
+            return "Hello, student $this->name $this->surname";
+        }
     }
-}
 

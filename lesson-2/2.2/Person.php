@@ -1,28 +1,17 @@
 <?php
-
-/**
- * Class Person
- */
-abstract class Person
-{
-    protected $name;
-    protected $surname;
-
-    /**
-     * Person constructor.
-     * @param string $name
-     * @param string $surname
-     */
-    public function __construct(string $name, string $surname)
+    abstract class Person
     {
-        $this->name = $name;
-        $this->surname = $surname;
-    }
+        protected $name;
+        protected $surname;
 
-    /**
-     * @return string
-     */
-    abstract public function getHello(): string;
-}
+        // -----------------
+        public function __construct(string $name, string $surname) {
+            $this->name = $name;
+            $this->surname = $surname;
+        }
+
+        // -----------------
+        abstract public function getHello(): string;
+    }
 
 
