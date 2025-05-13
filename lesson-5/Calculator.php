@@ -1,14 +1,8 @@
 <?php
-
-class Calculator
-{
-    /**
-     * @param int $x
-     * @param int $y
-     * @return float|int
-     */
-    public function getPower(int $x, int $y)
+    // ===================================
+    class Calculator
     {
-        return pow($x, $y);
+        public function getPower(int $x, int $y): float|int|object {
+            return pow($x, $y);
+        }
     }
-}

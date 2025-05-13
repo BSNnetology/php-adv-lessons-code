@@ -1,26 +1,25 @@
 <?php
+    use PHPUnit\Framework\TestCase;
+    include_once 'Calculator.php';
 
-require_once 'PHPUnit/Framework.php';
-
-/**
- * Class CalculatorTest
- */
-class CalculatorTest extends TestCase
-{
-    public function testGetPower()
+    // ===================================
+    class CalculatorTest extends TestCase
     {
-        $calculator = new Calculator();
-        $powerResult = $calculator->getPower(2, 3);
-        $this->assertEquals(8, $powerResult);
-    }
+        /**
+         * @dataProvider providerGetPower
+         */
+        public function testGetPower($x, $y, $exepted): void {
+            $calculator = new Calculator();
+            $powerResult = $calculator->getPower($x, $y);
+            $this->assertEquals($exepted, $powerResult);
+        }
 
-    public function providerGetPower()
-    {
-        return [
-            [2, 2, 4],
-            [2, 3, 9],
-            [3, 5, 243],
-        ];
+        // ---------------------
+        public function providerGetPower(): array {
+            return [
+                'Test 1'=>[2, 2, 4],
+                'Test 2'=>[2, 3, 8],
+                'Test 3'=>[3, 5, 243],
+            ];
+        }
     }
-
-}
